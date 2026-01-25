@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Azinlik Kelime Oyunu",
-    "slug": "azinlik-kelime-oyunu",
-    "version": "1.0.0",
+    "name": "Azınlık Kelime Oyunu",
+    "slug": "azinlik-kelime-oyunu-prod",
+    "owner": "ozgur77",
     "sdkVersion": "54.0.0"
   }
 }
