@@ -1,7 +1,9 @@
+// frontend/app.json
 {
   "expo": {
     "name": "Azınlık Kelime Oyunu",
-    "slug": "azinlik-kelime-oyunu",
+    "slug": "azinlik-kelime-oyunu-prod",
+    "owner": "unlu",
     "sdkVersion": "54.0.0"
   }
 }
