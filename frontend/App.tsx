@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 export default function App() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Azınlık Kelime Oyunu ✅</Text>
+      <Text>Merhaba Özgür 👋 Uygulama çalışıyor.</Text>
     </View>
   );
 }
