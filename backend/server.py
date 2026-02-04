@@ -38,6 +38,52 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# Word Game Models
+class Word(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    word: str
+    language: str
+    difficulty: str = "medium"  # easy, medium, hard
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class WordCreate(BaseModel):
+    word: str
+    language: str
+    difficulty: str = "medium"
+
+class Game(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    player_id: str
+    word_id: str
+    target_word: str
+    language: str
+    guesses: List[str] = []
+    game_state: str = "in_progress"  # in_progress, won, lost
+    score: int = 0
+    time_taken: Optional[int] = None  # in seconds
+    started_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    completed_at: Optional[datetime] = None
+    is_daily_challenge: bool = False
+
+class GameCreate(BaseModel):
+    player_id: str
+    language: str = "en"
+    is_daily_challenge: bool = False
+
+class GuessRequest(BaseModel):
+    guess: str
+
+class GuessResponse(BaseModel):
+    guess: str
+    feedback: List[str]  # ["correct", "present", "absent"]
+    game_state: str
+    score: int
+    attempts_remaining: int
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
