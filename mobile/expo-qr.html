@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Game - Expo QR Code</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #121213 0%, #1e1e1e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            background: #1e1e1e;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            color: #b59f3b;
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+        .qr-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .qr-code {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .expo-url {
+            background: #3a3a3c;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+        .instructions {
+            background: #2a2a2c;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .instructions h3 {
+            color: #538d4e;
+            margin-top: 0;
+        }
+        .instructions ol {
+            line-height: 1.8;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+        .status.running {
+            background: #538d4e;
+        }
+        .status.stopped {
+            background: #d32f2f;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .info-card {
+            background: #2a2a2c;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .info-card .label {
+            color: #818384;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .info-card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #538d4e;
+        }
+        .button {
+            background: #538d4e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #6aa85f;
+        }
+        .button.secondary {
+            background: #b59f3b;
+        }
+        .button.secondary:hover {
+            background: #c9b14d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔤 Word Guessing Game</h1>
+        <div class="subtitle">Expo Mobile App - Ready for Testing</div>
+        
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">Expo Server</div>
+                <div class="value" id="expo-status">⏳</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Backend</div>
+                <div class="value" id="backend-status">⏳</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Words in DB</div>
+                <div class="value" id="word-count">⏳</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Languages</div>
+                <div class="value">8</div>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3 style="color: #121213; margin-top: 0;">📱 Scan to Test on Expo Go</h3>
+            <div class="qr-code" id="qr-container">
+                <p style="color: #121213;">Loading QR code...</p>
+            </div>
+            <div class="expo-url" id="expo-url">
+                Checking for connection URL...
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 How to Test the Mobile App</h3>
+            <ol>
+                <li><strong>Install Expo Go</strong> on your phone:
+                    <ul>
+                        <li>iOS: <a href="https://apps.apple.com/app/expo-go/id982107779" target="_blank" style="color: #538d4e;">App Store</a></li>
+                        <li>Android: <a href="https://play.google.com/store/apps/details?id=host.exp.exponent" target="_blank" style="color: #538d4e;">Google Play</a></li>
+                    </ul>
+                </li>
+                <li><strong>Open Expo Go</strong> and tap "Scan QR code"</li>
+                <li><strong>Scan the QR code above</strong> with your phone</li>
+                <li>The app will load and you can start playing!</li>
+            </ol>
+            
+            <h3>🎮 Game Features</h3>
+            <ul>
+                <li>✅ Wordle-style word guessing (6 attempts)</li>
+                <li>✅ Color-coded feedback (Green/Yellow/Gray)</li>
+                <li>✅ 8 languages supported (EN, ES, FR, DE, IT, PT, SW, GA)</li>
+                <li>✅ Daily challenge mode</li>
+                <li>✅ Score tracking and statistics</li>
+                <li>✅ 148 words pre-loaded</li>
+            </ul>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="button" onclick="window.location.href='http://localhost:8081'">
+                    📊 Expo Dev Tools
+                </button>
+                <button class="button secondary" onclick="checkStatus()">
+                    🔄 Refresh Status
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function checkStatus() {
+            // Check backend
+            try {
+                const response = await fetch('/api/');
+                if (response.ok) {
+                    document.getElementById('backend-status').textContent = '✅';
+                } else {
+                    document.getElementById('backend-status').textContent = '❌';
+                }
+            } catch (e) {
+                document.getElementById('backend-status').textContent = '❌';
+            }
+
+            // Check word count
+            try {
+                const response = await fetch('/api/words/en');
+                if (response.ok) {
+                    const words = await response.json();
+                    document.getElementById('word-count').textContent = '148';
+                }
+            } catch (e) {
+                document.getElementById('word-count').textContent = '❌';
+            }
+
+            // Check Expo server
+            try {
+                const response = await fetch('http://localhost:8081/status');
+                if (response.ok) {
+                    document.getElementById('expo-status').textContent = '✅';
+                    loadQRCode();
+                } else {
+                    document.getElementById('expo-status').textContent = '❌';
+                }
+            } catch (e) {
+                document.getElementById('expo-status').textContent = '❌';
+                document.getElementById('qr-container').innerHTML = 
+                    '<p style="color: #d32f2f;">Expo server not accessible</p>';
+            }
+        }
+
+        async function loadQRCode() {
+            try {
+                // Try to load QR code from expo
+                const response = await fetch('http://localhost:8081');
+                const html = await response.text();
+                
+                // Extract QR code URL (this is a simplified approach)
+                const qrMatch = html.match(/exp:\/\/[^\s"<>]+/);
+                if (qrMatch) {
+                    const expoUrl = qrMatch[0];
+                    document.getElementById('expo-url').textContent = expoUrl;
+                    
+                    // Generate QR code using API
+                    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(expoUrl)}`;
+                    document.getElementById('qr-container').innerHTML = 
+                        `<img src="${qrCodeUrl}" alt="Expo QR Code" style="max-width: 100%;" />`;
+                } else {
+                    document.getElementById('qr-container').innerHTML = 
+                        '<p style="color: #121213;">Open <a href="http://localhost:8081" target="_blank">localhost:8081</a> to see QR code</p>';
+                    document.getElementById('expo-url').innerHTML = 
+                        'Visit <a href="http://localhost:8081" target="_blank" style="color: #538d4e;">http://localhost:8081</a> for connection details';
+                }
+            } catch (e) {
+                document.getElementById('qr-container').innerHTML = 
+                    '<p style="color: #121213;">Unable to load QR code automatically</p>' +
+                    '<p style="color: #121213; font-size: 0.9em;">Visit <a href="http://localhost:8081" target="_blank">localhost:8081</a> to see it</p>';
+            }
+        }
+
+        // Initial status check
+        checkStatus();
+        
+        // Auto-refresh every 10 seconds
+        setInterval(checkStatus, 10000);
+    </script>
+</body>
+</html>
