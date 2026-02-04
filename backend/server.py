@@ -195,26 +195,64 @@ def check_guess(guess: str, target: str) -> List[str]:
     
     return feedback
 
+def validate_kurdish_word(word: str) -> tuple[bool, str]:
+    """Validate Kurdish word
+    Returns: (is_valid, error_message)
+    """
+    word_lower = word.lower()
+    
+    # Check for Turkish characters
+    if any(char in word_lower for char in TR_FORBIDDEN_CHARS):
+        return False, "Tîpên ne rast in"  # Wrong letters
+    
+    # Check if all characters are allowed
+    if not all(char in KU_ALLOWED_CHARS for char in word_lower):
+        return False, "Tîpên ne rast in"  # Wrong letters
+    
+    # Check if word is in valid words list
+    if word_lower not in KU_VALID_WORDS:
+        return False, "Ev peyv ne di nav de ye"  # Word not found
+    
+    return True, ""
+
 @api_router.post("/games", response_model=Game)
 async def create_game(game_input: GameCreate):
     """Create a new game session"""
-    # Get random word for the language
-    if game_input.is_daily_challenge:
-        daily = await get_daily_word(game_input.language)
-        word = await db.words.find_one({"id": daily["word_id"]}, {"_id": 0})
+    # For Kurdish, use predefined word lists
+    if game_input.language == 'ku':
+        if game_input.is_daily_challenge:
+            today = datetime.now(timezone.utc).date()
+            seed = int(today.strftime("%Y%m%d"))
+            random.seed(seed)
+            target_word = random.choice(KU_SOLUTION_WORDS)
+        else:
+            target_word = random.choice(KU_SOLUTION_WORDS)
+        
+        game_obj = Game(
+            player_id=game_input.player_id,
+            word_id=f"ku_{target_word}",
+            target_word=target_word,
+            language=game_input.language,
+            is_daily_challenge=game_input.is_daily_challenge
+        )
     else:
-        words = await db.words.find({"language": game_input.language}, {"_id": 0}).to_list(1000)
-        if not words:
-            raise HTTPException(status_code=404, detail=f"No words found for language: {game_input.language}")
-        word = random.choice(words)
-    
-    game_obj = Game(
-        player_id=game_input.player_id,
-        word_id=word["id"],
-        target_word=word["word"],
-        language=game_input.language,
-        is_daily_challenge=game_input.is_daily_challenge
-    )
+        # Get random word for other languages
+        if game_input.is_daily_challenge:
+            daily = await get_daily_word(game_input.language)
+            word = await db.words.find_one({"id": daily["word_id"]}, {"_id": 0})
+        else:
+            words = await db.words.find({"language": game_input.language}, {"_id": 0}).to_list(1000)
+            if not words:
+                raise HTTPException(status_code=404, detail=f"No words found for language: {game_input.language}")
+            word = random.choice(words)
+        
+        game_obj = Game(
+            player_id=game_input.player_id,
+            word_id=word["id"],
+            target_word=word["word"],
+            language=game_input.language,
+            is_daily_challenge=game_input.is_daily_challenge
+        )
     
     doc = game_obj.model_dump()
     doc['started_at'] = doc['started_at'].isoformat()
