@@ -249,6 +249,12 @@ export default function App() {
           >
             <Text style={styles.languageButtonText}>🇫🇷 FR</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.languageButton, language === 'ku' && styles.languageButtonActive]}
+            onPress={() => setLanguage('ku')}
+          >
+            <Text style={styles.languageButtonText}>☀️ KU</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
