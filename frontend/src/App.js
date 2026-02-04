@@ -200,18 +200,28 @@ const WordGame = () => {
   };
 
   const renderKeyboard = () => {
-    const rows = [
+    // Kurdish keyboard layout with special characters
+    const kurdishRows = [
+      ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'Ê', 'Î', 'Û'],
+      ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ç', 'Ş'],
+      ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DELETE'],
+    ];
+    
+    // Standard keyboard for other languages
+    const standardRows = [
       ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
       ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
       ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DELETE'],
     ];
+
+    const rows = language === 'ku' ? kurdishRows : standardRows;
 
     return rows.map((row, rowIndex) => (
       <div key={rowIndex} className="keyboard-row">
         {row.map((key) => (
           <button
             key={key}
-            className={`key ${(key === 'ENTER' || key === 'DELETE') ? 'wide-key' : ''}`}
+            className={`key ${(key === 'ENTER' || key === 'DELETE') ? 'wide-key' : ''} ${['Ç', 'Ş', 'Ê', 'Î', 'Û'].includes(key) ? 'special-key' : ''}`}
             onClick={() => handleKeyPress(key)}
             disabled={loading || gameState !== 'playing'}
             data-testid={`key-${key.toLowerCase()}`}
