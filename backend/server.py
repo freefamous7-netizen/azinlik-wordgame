@@ -280,7 +280,14 @@ async def submit_guess(game_id: str, guess_input: GuessRequest):
     
     # Validate guess length
     if len(guess) != len(target):
-        raise HTTPException(status_code=400, detail=f"Guess must be {len(target)} characters")
+        error_msg = f"Peyv divê {len(target)} tîp be" if game["language"] == "ku" else f"Guess must be {len(target)} characters"
+        raise HTTPException(status_code=400, detail=error_msg)
+    
+    # Kurdish word validation
+    if game["language"] == "ku":
+        is_valid, error_msg = validate_kurdish_word(guess)
+        if not is_valid:
+            raise HTTPException(status_code=400, detail=error_msg)
     
     # Check guess
     feedback = check_guess(guess, target)
