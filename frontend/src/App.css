@@ -250,6 +250,15 @@
     transition: all 0.2s;
 }
 
+.key.special-key {
+    background-color: #b59f3b;
+    font-size: 1.1rem;
+}
+
+.key.special-key:hover:not(:disabled) {
+    background-color: #c9b14d;
+}
+
 .key:hover:not(:disabled) {
     background-color: #9a9a9c;
     transform: translateY(-2px);
