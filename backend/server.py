@@ -10,10 +10,24 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone, timedelta
 import random
+import json
+import re
 
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
+
+# Load Kurdish word lists
+with open(ROOT_DIR / 'ku_valid_words.json', 'r', encoding='utf-8') as f:
+    KU_VALID_WORDS = set(json.load(f))
+
+with open(ROOT_DIR / 'ku_solution_words.json', 'r', encoding='utf-8') as f:
+    KU_SOLUTION_WORDS = json.load(f)
+
+# Kurdish alphabet (Kurmancî - Latin)
+KU_ALLOWED_CHARS = set('abcçdeêfghîijklmnopqrşstuûvwxyz')
+# Turkish characters to reject
+TR_FORBIDDEN_CHARS = set('ğöüı')
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
