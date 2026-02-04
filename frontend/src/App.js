@@ -326,7 +326,6 @@ const WordGame = () => {
               >
                 ☀️ KU
               </button>
-              </button>
             </div>
           </div>
 
