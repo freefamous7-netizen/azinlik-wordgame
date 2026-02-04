@@ -1,145 +1,141 @@
-import React, { useEffect, useMemo, useState } from "react";
-import data from "./data/ku_kurmanci.json";
+import React, { useEffect, useState } from "react";
+import { LANGUAGES, DEFAULT_LANG } from "./data/languages";
 
-type LetterStatus = "correct" | "present" | "absent" | "empty";
+const lang = LANGUAGES[DEFAULT_LANG];
 
-const WORD_LENGTH = data.meta.wordlength;
+const WORD_LENGTH = lang.meta.wordlength;
 const MAX_ATTEMPTS = 6;
 
-function pickRandom(arr: string[]) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function evaluateGuess(guess: string, solution: string): LetterStatus[] {
-  const res: LetterStatus[] = Array(WORD_LENGTH).fill("absent");
-  const sol = solution.split("");
-  const g = guess.split("");
-
-  for (let i = 0; i < WORD_LENGTH; i++) {
-    if (g[i] === sol[i]) {
-      res[i] = "correct";
-      sol[i] = "#";
-      g[i] = "*";
-    }
-  }
-
-  for (let i = 0; i < WORD_LENGTH; i++) {
-    if (g[i] === "*") continue;
-    const idx = sol.indexOf(g[i]);
-    if (idx !== -1) {
-      res[i] = "present";
-      sol[idx] = "#";
-    }
-  }
-
-  return res;
-}
-
-function tileColor(s: LetterStatus) {
-  if (s === "correct") return "#16a34a";
-  if (s === "present") return "#eab308";
-  if (s === "absent") return "#334155";
-  return "#111827";
+// 🔐 Daily word selector (deterministic)
+function getDailyWord(words: string[]) {
+  const today = new Date();
+  const seed =
+    today.getFullYear() * 10000 +
+    (today.getMonth() + 1) * 100 +
+    today.getDate();
+  return words[seed % words.length].toUpperCase();
 }
 
 export default function App() {
-  const dictionary = data.dictionary.validGuesses.map((w: string) => w.toUpperCase());
-  const solutions = data.dictionary.solutions.map((w: string) => w.toUpperCase());
+  const solution = getDailyWord(lang.words.solutions);
 
-  const [solution, setSolution] = useState(() => pickRandom(solutions));
+  const [currentGuess, setCurrentGuess] = useState("");
   const [guesses, setGuesses] = useState<string[]>([]);
-  const [current, setCurrent] = useState("");
+  const [message, setMessage] = useState("");
   const [gameOver, setGameOver] = useState(false);
 
-  const rows = useMemo(() => {
-    const r = [...guesses];
-    while (r.length < MAX_ATTEMPTS) r.push("");
-    return r.map((w, i) => (i === guesses.length && !gameOver ? current : w));
-  }, [guesses, current, gameOver]);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (gameOver) return;
 
-  function submit() {
-    if (gameOver) return;
+      if (e.key === "Enter") submitGuess();
+      else if (e.key === "Backspace") {
+        setCurrentGuess((g) => g.slice(0, -1));
+      } else if (
+        lang.meta.letters.includes(e.key.toLowerCase()) &&
+        currentGuess.length < WORD_LENGTH
+      ) {
+        setCurrentGuess((g) => g + e.key.toUpperCase());
+      }
+    };
 
-    if (current.length !== WORD_LENGTH) {
-      alert(data.ui.messages.notEnoughLetters);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [currentGuess, gameOver]);
+
+  function submitGuess() {
+    if (currentGuess.length !== WORD_LENGTH) {
+      setMessage(lang.ui.messages.notEnoughLetters);
       return;
     }
 
-    const word = current.toUpperCase();
-    if (!dictionary.includes(word)) {
-      alert(data.ui.messages.notInDictionary);
+    if (!lang.words.allowed.includes(currentGuess.toLowerCase())) {
+      setMessage(lang.ui.messages.notInDictionary);
       return;
     }
 
-    const next = [...guesses, word];
+    const next = [...guesses, currentGuess];
     setGuesses(next);
-    setCurrent("");
+    setCurrentGuess("");
+    setMessage("");
 
-    if (word === solution) {
+    if (currentGuess === solution) {
+      setMessage("🎉 Kazandın!");
       setGameOver(true);
-      alert("🎉 Congratulations!");
-      return;
-    }
-
-    if (next.length >= MAX_ATTEMPTS) {
+    } else if (next.length >= MAX_ATTEMPTS) {
+      setMessage(`❌ Kelime: ${solution}`);
       setGameOver(true);
-      alert("❌ " + solution);
     }
   }
 
-  function press(k: string) {
-    if (gameOver) return;
-    if (k === "ENTER") return submit();
-    if (k === "DELETE") return setCurrent(c => c.slice(0, -1));
-    if (current.length < WORD_LENGTH) setCurrent(c => c + k);
-  }
-
-  function newGame() {
-    setSolution(pickRandom(solutions));
-    setGuesses([]);
-    setCurrent("");
-    setGameOver(false);
+  function tileColor(letter: string, index: number) {
+    if (!solution.includes(letter)) return "#3a3a3c";
+    if (solution[index] === letter) return "#538d4e";
+    return "#b59f3b";
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0b1020", color: "white", padding: 24 }}>
-      <h1 style={{ textAlign: "center" }}>{data.ui.title}</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#121213",
+        color: "white",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 40,
+        fontFamily: "Arial",
+      }}
+    >
+      <h1>{lang.ui.title}</h1>
 
-      <div style={{ display: "grid", gap: 8, justifyContent: "center" }}>
-        {rows.map((w, r) => {
-          const letters = w.padEnd(WORD_LENGTH).split("");
-          const evals =
-            r < guesses.length ? evaluateGuess(w, solution) : Array(WORD_LENGTH).fill("empty");
+      {message && <p>{message}</p>}
 
+      <div>
+        {[...Array(MAX_ATTEMPTS)].map((_, row) => {
+          const word = guesses[row] || (row === guesses.length ? currentGuess : "");
           return (
-            <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${WORD_LENGTH}, 56px)`, gap: 8 }}>
-              {letters.map((ch, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: 56,
-                    height: 56,
-                    background: tileColor(evals[i]),
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 800,
-                    fontSize: 24,
-                    borderRadius: 10,
-                  }}
-                >
-                  {ch.trim()}
-                </div>
-              ))}
+            <div key={row} style={{ display: "flex" }}>
+              {[...Array(WORD_LENGTH)].map((_, i) => {
+                const char = word[i] || "";
+                const bg =
+                  row < guesses.length
+                    ? tileColor(char, i)
+                    : "#121213";
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      width: 50,
+                      height: 50,
+                      margin: 4,
+                      border: "2px solid #3a3a3c",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 24,
+                      background: bg,
+                    }}
+                  >
+                    {char}
+                  </div>
+                );
+              })}
             </div>
           );
         })}
       </div>
 
-      <div style={{ marginTop: 20, display: "flex", justifyContent: "center", gap: 10 }}>
-        <button onClick={submit}>ENTER</button>
-        <button onClick={newGame}>NEW GAME</button>
-      </div>
+      <button
+        onClick={() => window.location.reload()}
+        style={{
+          marginTop: 20,
+          padding: "10px 20px",
+          cursor: "pointer",
+        }}
+      >
+        Yeni Gün
+      </button>
     </div>
   );
 }
