@@ -1,34 +1,348 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #0f0f10;
+.App {
     min-height: 100vh;
+    background-color: #121213;
+    color: #ffffff;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.menu-container {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: #b59f3b;
+    margin-bottom: 30px;
+}
+
+.stats-container {
+    background-color: #1e1e1e;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.stats-container h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    padding: 10px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #538d4e;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #818384;
+    margin-top: 5px;
+}
+
+.language-container {
+    margin-bottom: 30px;
+}
+
+.language-label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: #d7dadc;
+}
+
+.language-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.language-button {
+    background-color: #3a3a3c;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.language-button:hover {
+    background-color: #4a4a4c;
+    transform: translateY(-2px);
+}
+
+.language-button.active {
+    background-color: #538d4e;
+}
+
+.menu-button {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 30px;
+    margin: 10px auto;
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.menu-button.primary {
+    background-color: #538d4e;
+    color: #ffffff;
+}
+
+.menu-button.primary:hover {
+    background-color: #6aa85f;
+    transform: translateY(-2px);
+}
+
+.menu-button.secondary {
+    background-color: #b59f3b;
+    color: #ffffff;
+}
+
+.menu-button.secondary:hover {
+    background-color: #c9b14d;
+    transform: translateY(-2px);
+}
+
+.menu-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.instructions {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    line-height: 1.8;
+}
+
+.instructions p {
+    margin: 5px 0;
+}
+
+.mobile-link {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #2a2a2c;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+.mobile-link p {
+    margin: 5px 0;
+}
+
+.game-container {
+    max-width: 600px;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.header-info {
+    display: flex;
+    gap: 20px;
+}
+
+.header-score,
+.header-attempts {
+    font-size: 1.1rem;
+    color: #b59f3b;
+    font-weight: bold;
+}
+
+.board {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 5px;
+    margin-bottom: 30px;
+}
+
+.row {
+    display: flex;
+    gap: 5px;
+}
+
+.tile {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #3a3a3c;
+    display: flex;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: all 0.3s;
 }
 
-.App-link {
-    color: #61dafb;
+.keyboard {
+    margin-top: 30px;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 8px;
+}
+
+.key {
+    background-color: #818384;
+    color: #ffffff;
+    border: none;
+    padding: 15px 12px;
+    border-radius: 5px;
+    min-width: 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.key:hover:not(:disabled) {
+    background-color: #9a9a9c;
+    transform: translateY(-2px);
+}
+
+.key:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.key.wide-key {
+    min-width: 80px;
+    font-size: 0.9rem;
+}
+
+.back-button {
+    background-color: #818384;
+    color: #ffffff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    transition: all 0.2s;
+}
+
+.back-button:hover {
+    background-color: #9a9a9c;
+    transform: translateY(-2px);
+}
+
+.error-container {
+    max-width: 600px;
+    text-align: center;
+    background-color: #1e1e1e;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.error-container h1 {
+    color: #d32f2f;
+    margin-bottom: 20px;
+}
+
+.error-container p {
+    margin: 10px 0;
+    color: #d7dadc;
+}
+
+.info-box {
+    background-color: #2a2a2c;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+    text-align: left;
+}
+
+.info-box h3 {
+    margin-top: 0;
+    color: #538d4e;
+}
+
+.info-box ol {
+    line-height: 1.8;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2rem;
     }
-    to {
-        transform: rotate(360deg);
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .tile {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .key {
+        padding: 12px 8px;
+        min-width: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .key.wide-key {
+        min-width: 60px;
+        font-size: 0.8rem;
     }
 }
