@@ -148,6 +148,7 @@ const WordGame = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState, currentGuess, wordLength]);
 
   const getTileColor = (guess, index) => {
