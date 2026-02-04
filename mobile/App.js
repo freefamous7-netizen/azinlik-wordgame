@@ -495,10 +495,16 @@ const styles = StyleSheet.create({
   wideKey: {
     paddingHorizontal: 12,
   },
+  specialKey: {
+    backgroundColor: '#b59f3b',
+  },
   keyText: {
     color: '#ffffff',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  specialKeyText: {
+    fontSize: 16,
   },
   backButton: {
     backgroundColor: '#818384',
