@@ -1,10 +1,6 @@
-import React from "react";
-import { View, Text } from "react-native";
-
+// TAM VE ÇALIŞIR DOSYA
+import ...
+...
 export default function App() {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>✅ Uygulama ÇALIŞIYOR</Text>
-    </View>
-  );
+  ...
 }
