@@ -169,27 +169,46 @@ export default function App() {
   };
 
   const renderKeyboard = () => {
-    const rows = [
+    // Kurdish keyboard layout with special characters
+    const kurdishRows = [
+      ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+      ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+      ['Ê', 'Î', 'Û', 'Ç', 'Ş', 'Z', 'X', 'C', 'V', 'B'],
+      ['ENTER', 'N', 'M', 'DELETE'],
+    ];
+    
+    // Standard keyboard for other languages
+    const standardRows = [
       ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
       ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
       ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'DELETE'],
     ];
 
+    const rows = language === 'ku' ? kurdishRows : standardRows;
+
     return rows.map((row, rowIndex) => (
       <View key={rowIndex} style={styles.keyboardRow}>
-        {row.map((key) => (
-          <TouchableOpacity
-            key={key}
-            style={[
-              styles.key,
-              (key === 'ENTER' || key === 'DELETE') && styles.wideKey,
-            ]}
-            onPress={() => handleKeyPress(key)}
-            disabled={loading || gameState !== 'playing'}
-          >
-            <Text style={styles.keyText}>{key}</Text>
-          </TouchableOpacity>
-        ))}
+        {row.map((key) => {
+          const isSpecialChar = ['Ç', 'Ş', 'Ê', 'Î', 'Û'].includes(key);
+          const isWideKey = key === 'ENTER' || key === 'DELETE';
+          
+          return (
+            <TouchableOpacity
+              key={key}
+              style={[
+                styles.key,
+                isWideKey && styles.wideKey,
+                isSpecialChar && styles.specialKey,
+              ]}
+              onPress={() => handleKeyPress(key)}
+              disabled={loading || gameState !== 'playing'}
+            >
+              <Text style={[styles.keyText, isSpecialChar && styles.specialKeyText]}>
+                {key}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     ));
   };
