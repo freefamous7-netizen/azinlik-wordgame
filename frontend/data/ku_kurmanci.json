@@ -6,69 +6,89 @@
     "direction": "ltr",
     "letters": ["a","b","c","ç","d","e","ê","f","g","h","i","î","j","k","l","m","n","o","p","q","r","s","ş","t","u","û","v","w","x","y","z"]
   },
+
   "ui": {
     "title": "Lîstika Peyvan",
-    "subtitle": "Zimanên kêm – Wordle-style",
+    "subtitle": "Zimanê me – lîstika Wordle-style",
     "dailyChallenge": "Pêşbazîya Roja",
-    "randomGame": "Lîstika Rasthatî",
-    "selectLanguage": "Ziman hilbijêre",
-    "stats": {
-      "played": "Lîstin",
-      "won": "Serketin",
-      "winRate": "Rêjeya Serketinê",
-      "score": "Skor"
-    },
-    "messages": {
-      "notInDictionary": "Ev peyv ne di ferhengê de ye",
-      "notEnoughLetters": "Pêdivî ye 5 tîp binivîsî",
-      "correct": "Rast e!",
-      "tryAgain": "Dîsa biceribîne",
-      "gameOver": "Lîstik qediya",
-      "welcome": "Bi xêr hatî!"
-    }
+    "randomGame": "Lîstika Rastê",
+    "selectLanguage": "Ziman Hilbijêre",
+    "backToMenu": "← Vegere Menuyê"
   },
-  "words": {
-    "solutions": [
-      "heval",
-      "welat",
-      "ziman",
-      "azadî",
-      "dîrok",
-      "rojav",
-      "çanda",
-      "jinan",
-      "berît",
-      "çavên",
-      "nivîs",
-      "rêzan",
-      "şared",
-      "pêvaj",
-      "xwedî",
-      "bihar",
-      "payîz",
-      "hevîn",
-      "rojên",
-      "şevên",
-      "navin",
-      "rêbaz",
-      "banga",
-      "xwînê",
-      "şopên",
-      "welat",
-      "çîrok",
-      "bîran",
-      "hêvîy",
-      "ronah"
-    ],
-    "allowed": [
-      "heval","welat","ziman","azadî","dîrok","rojav","çanda","jinan","berît","çavên",
-      "nivîs","rêzan","şared","pêvaj","xwedî","bihar","payîz","hevîn","rojên","şevên",
-      "navin","rêbaz","banga","xwînê","şopên","çîrok","bîran","hêvîy","ronah",
-      "agirê","axaft","belav","çalak","destû","dengê","dilop","erdoz","ferheng",
-      "gotin","hêrsê","huner","hêza","îroye","jiyan","kêmal","lêkol","mirov",
-      "naver","ozman","pêşin","qadaf","rêber","sedsê","şevit","tevay","xalaz",
-      "yêkît","zanîn","zarav","welat","xweşî","şared","pêşve","çanda","rojên",
-      "şevên","bihar","payîz","hevîn"
-    ]
-  }
+
+  "stats": {
+    "played": "Lîstin",
+    "won": "Serketin",
+    "winRate": "Rêjeya Serketinê",
+    "score": "Skor"
+  },
+
+  "messages": {
+    "notInDictionary": "Ev peyv ne di ferhengê de ye",
+    "notEnoughLetters": "Divê peyv 5 tîpan be",
+    "correct": "Rast e!",
+    "tryAgain": "Dîsa biceribîne",
+    "gameOver": "Lîstik qediya",
+    "welcome": "Bi xêr hatî!"
+  },
+
+  "solutionWords": [
+    "welat",
+    "heval",
+    "jinan",
+    "zarok",
+    "rojav",
+    "xwend",
+    "azadî",
+    "bihar",
+    "payiz",
+    "ziman",
+    "rojên",
+    "şevên",
+    "navin",
+    "diyar",
+    "çavên"
+  ],
+
+  "validGuesses": [
+    "welat",
+    "heval",
+    "jinan",
+    "zarok",
+    "rojav",
+    "xwend",
+    "azadî",
+    "bihar",
+    "payiz",
+    "ziman",
+    "rojên",
+    "şevên",
+    "navin",
+    "diyar",
+    "çavên",
+
+    "hevîn",
+    "rojin",
+    "malik",
+    "mîrov",
+    "birin",
+    "çanda",
+    "welad",
+    "rojêr",
+    "rojên",
+    "şevin",
+    "heval",
+    "xalên",
+    "çavan",
+    "qelem",
+    "kitêb",
+    "destê",
+    "pêşî",
+    "paşê",
+    "navê",
+    "çîrok",
+    "gotin",
+    "bêjin",
+    "nivîs"
+  ]
 }
