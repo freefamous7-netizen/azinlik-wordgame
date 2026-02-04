@@ -319,6 +319,14 @@ const WordGame = () => {
               >
                 🇩🇪 DE
               </button>
+              <button
+                className={`language-button ${language === 'ku' ? 'active' : ''}`}
+                onClick={() => setLanguage('ku')}
+                data-testid="language-ku"
+              >
+                ☀️ KU
+              </button>
+              </button>
             </div>
           </div>
 
