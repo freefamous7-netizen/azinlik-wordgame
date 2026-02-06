@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Azinlik Kelime Oyunu",
-    "slug": "azinlik-kelime-oyunu-prod",
-    "owner": "unlu7",
-    "sdkVersion": "54.0.0"
+    "name": "azinlik-wordgame",
+    "slug": "azinlik-wordgame",
+    "platforms": ["ios", "android"],
+    "jsEngine": "hermes"
   }
 }
